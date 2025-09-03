@@ -1,3 +1,6 @@
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  *  Two Sum is the classic problem from leetcode
  *
@@ -29,21 +32,44 @@ public class TwoSum {
        int result [] =  bruteForceSolution(nums,target);
         System.out.println(result[0]);
         System.out.println(result[1]);
+
+
+        int resultFromOptimizedFunction [] =  optimizedSoltuion(nums,target);
+        System.out.println(resultFromOptimizedFunction[0]);
+        System.out.println(resultFromOptimizedFunction[1]);
     }
+
+    /**
+     * Due to nested loop in this function its time complexity is more near about 0(N^2)
+     * WE CAN TRY OPTIMIZING THIS SOLUTION
+     */
 
     private static int[] bruteForceSolution(int[] nums, int target) {
 
         int n = nums.length;
         int result [] = {-1,-1};
         for (int i=0;i<n;i++) {
-
             for(int j=i+1;j<n;j++) {
-
                 if(nums[i] + nums[j] ==  target) {
                     return new int [] {i,j};
                 }
             }
         }
         return result;
+    }
+
+
+    private static int [] optimizedSoltuion(int [] nums, int target) {
+        int n = nums.length;
+        Map<Integer,Integer> comp = new HashMap<>();
+
+        for(int i =0; i<n; i++) {
+            int compliment = target - nums[i];
+            if(comp.containsKey(compliment)) {
+                return new int[] {i, comp.get(compliment)};
+            }
+            comp.put(nums[i],i);
+        }
+        return new int[] {-1,-1};
     }
 }
